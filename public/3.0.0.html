@@ -1,15 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>云管</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/icon.svg" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <style>
         /* ===== 全局重置 ===== */
         * {
@@ -5508,7 +5503,7 @@
 const FEISHU_CONFIG_KEY = 'feishu_sync_config';
 
 let feishuSyncConfig = { appId: '', appSecret: '', sheetToken: '' };
-let feishuApiBase = ''; // '' = use relative path /api/feishu/
+let feishuApiBase = '';
 
 async function detectFeishuProxy() {
     try {
@@ -5567,7 +5562,7 @@ function setSyncSummary(html, isError) {
 
 function feishuUrl(path) {
     if (feishuApiBase) return feishuApiBase + path;
-    return '/api/feishu/' + path;
+    return 'https://open.feishu.cn/open-apis/' + path;
 }
 
 async function doFeishuSync() {
@@ -5590,7 +5585,14 @@ async function doFeishuSync() {
     feishuSyncConfig = { appId: appId, appSecret: appSecret, sheetToken: sheetToken };
     saveFeishuConfig();
 
-    // On cloud deployment, API proxy is always available via same origin
+    if (!feishuApiBase && !window.location.href.startsWith('http://localhost') && !window.location.href.startsWith('http://127.0.0.1')) {
+        var proxyOk = await detectFeishuProxy();
+        if (!proxyOk) {
+            logSyncMsg('未检测到同步代理服务器，请双击运行「start-sync-server.bat」', 'warn');
+            setSyncSummary('需要先双击运行<br><code>start-sync-server.bat</code><br>然后通过 <b>http://localhost:3001</b> 打开本页面', true);
+            return;
+        }
+    }
 
     const syncStatusEl = document.getElementById('feishuSyncStatus');
     const btn = document.getElementById('feishuSyncBtn');
@@ -5983,14 +5985,7 @@ loadFeishuConfig();
                             td { padding: 6px 14px; border: 1px solid #dce1eb; }
                             tr:nth-child(even) td { background: #f8faff; }
                         </style>
-                        </head><body>${tableHtml}    <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("/sw.js").catch(function(e) {
-                console.log("SW registration failed:", e);
-            });
-        }
-    </script>
-</body></html>
+                        </head><body>${tableHtml}</body></html>
                     `;
 
             const blob = new Blob([fullHtml], { type: 'application/vnd.ms-excel;charset=utf-8' });
