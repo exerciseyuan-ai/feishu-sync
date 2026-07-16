@@ -5509,11 +5509,15 @@ let feishuApiBase = ''; // '' = use relative path /api/feishu/
 
 async function detectFeishuProxy() {
     try {
-        var res = await fetch('http://localhost:3001/api/health');
+        var controller = new AbortController();
+        setTimeout(function() { controller.abort(); }, 2000);
+        var res = await fetch('http://localhost:3001/api/health', { signal: controller.signal });
         if (res.ok) { feishuApiBase = 'http://localhost:3001/api/feishu/'; return true; }
     } catch(e) {}
     try {
-        var res2 = await fetch('http://127.0.0.1:3001/api/health');
+        var controller2 = new AbortController();
+        setTimeout(function() { controller2.abort(); }, 2000);
+        var res2 = await fetch('http://127.0.0.1:3001/api/health', { signal: controller2.signal });
         if (res2.ok) { feishuApiBase = 'http://127.0.0.1:3001/api/feishu/'; return true; }
     } catch(e) {}
     return false;
@@ -5532,10 +5536,11 @@ function saveFeishuConfig() {
     } catch (e) { /* ignore */ }
 }
 
-function openFeishuSyncModal() {
-    loadFeishuConfig();
-    detectFeishuProxy();
-    document.getElementById('feishuAppId').value = feishuSyncConfig.appId || '';
+async function openFeishuSyncModal() {
+    try {
+        loadFeishuConfig();
+        try { await detectFeishuProxy(); } catch(e) {}
+        document.getElementById('feishuAppId').value = feishuSyncConfig.appId || '';
     document.getElementById('feishuAppSecret').value = feishuSyncConfig.appSecret || '';
     document.getElementById('feishuSheetToken').value = feishuSyncConfig.sheetToken || '';
     document.getElementById('feishuSyncStatus').innerHTML = '<div class="msg-info">等待同步...</div>';
@@ -5543,6 +5548,7 @@ function openFeishuSyncModal() {
     document.getElementById('feishuSyncBtn').disabled = false;
     document.getElementById('feishuSyncBtn').textContent = '立即同步';
     document.getElementById('feishuSyncModal').classList.add('show');
+    } catch(e) { console.error('openFeishuSyncModal error:', e); }
 }
 
 function closeFeishuSyncModal() {
