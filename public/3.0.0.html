@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
@@ -950,7 +950,7 @@
             animation: fadeIn 0.25s ease;
         }
         .modal-overlay.show {
-            display: flex !important;
+            display: flex;
         }
         .modal {
             background: #fff;
@@ -2939,9 +2939,6 @@
                     <button class="btn-primary" onclick="openAddRoomModal()">
                         <i class="fas fa-plus"></i> 新增房间
                     </button>
-                    <button class="btn-outline" onclick="refreshRoomsView()">
-                        <i class="fas fa-rotate-right"></i> 刷新
-                    </button>
                 </div>
             </div>
             <!-- 统计卡片已移除 -->
@@ -3026,7 +3023,6 @@
                 <h1><i class="fas fa-coins"></i>计费规则</h1>
                 <div class="actions">
                     <button class="btn-primary" onclick="openAddRuleModal()"><i class="fas fa-plus"></i> 新增规则</button>
-                    <button class="btn-outline" onclick="refreshRules()"><i class="fas fa-rotate-right"></i> 刷新</button>
                 </div>
             </div>
             <div class="view-stats"><span class="stat-chip">共 <strong id="ruleCount">0</strong> 条规则</span></div>
@@ -3039,9 +3035,8 @@
                 <h1><i class="fas fa-cubes"></i>商品管理</h1>
                 <div class="actions">
                     <button class="btn-primary" onclick="openAddProductModal()"><i class="fas fa-plus"></i> 新增商品</button>
-                    <button class="btn-outline" onclick="refreshProducts()"><i class="fas fa-rotate-right"></i> 刷新</button>
 
-                    <button class="btn-outline feishu-sync-btn" onclick="document.getElementById('feishuSyncModal').style.cssText = 'display:flex;position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;background:rgba(0,0,0,0.4);justify-content:center;align-items:center'"><i class="fas fa-cloud-download-alt"></i> 从飞书同步</button>
+                    <button class="btn-outline feishu-sync-btn" onclick="openFeishuSyncModal()"><i class="fas fa-cloud-download-alt"></i> 从飞书同步</button>
                 </div>
             </div>
             <div class="view-stats"><span class="stat-chip">共 <strong id="productCount">0</strong> 件商品</span></div>
@@ -3406,6 +3401,15 @@
                     <label>描述</label>
                     <input type="text" id="productModalDesc" placeholder="商品描述（选填）" />
                 </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeProductModal()">取消</button>
+                <button class="btn-save" onclick="saveProductModal()"><i class="fas fa-check"></i> 保存</button>
+            </div>
+        </div>
+    </div>
     <!-- ===== 模态框：飞书数据源同步 ===== -->
     <div class="modal-overlay feishu-sync-modal" id="feishuSyncModal">
         <div class="modal">
@@ -3439,15 +3443,6 @@
             <div class="sync-actions">
                 <button class="btn-cancel" onclick="closeFeishuSyncModal()">关闭</button>
                 <button class="btn-sync" id="feishuSyncBtn" onclick="doFeishuSync()"><i class="fas fa-sync"></i> 立即同步</button>
-            </div>
-        </div>
-    </div>
-
-
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeProductModal()">取消</button>
-                <button class="btn-save" onclick="saveProductModal()"><i class="fas fa-check"></i> 保存</button>
             </div>
         </div>
     </div>
@@ -5509,15 +5504,11 @@ let feishuApiBase = ''; // '' = use relative path /api/feishu/
 
 async function detectFeishuProxy() {
     try {
-        var controller = new AbortController();
-        setTimeout(function() { controller.abort(); }, 2000);
-        var res = await fetch('http://localhost:3001/api/health', { signal: controller.signal });
+        var res = await fetch('http://localhost:3001/api/health');
         if (res.ok) { feishuApiBase = 'http://localhost:3001/api/feishu/'; return true; }
     } catch(e) {}
     try {
-        var controller2 = new AbortController();
-        setTimeout(function() { controller2.abort(); }, 2000);
-        var res2 = await fetch('http://127.0.0.1:3001/api/health', { signal: controller2.signal });
+        var res2 = await fetch('http://127.0.0.1:3001/api/health');
         if (res2.ok) { feishuApiBase = 'http://127.0.0.1:3001/api/feishu/'; return true; }
     } catch(e) {}
     return false;
@@ -5536,11 +5527,10 @@ function saveFeishuConfig() {
     } catch (e) { /* ignore */ }
 }
 
-async function openFeishuSyncModal() {
-    try {
-        loadFeishuConfig();
-        try { await detectFeishuProxy(); } catch(e) {}
-        document.getElementById('feishuAppId').value = feishuSyncConfig.appId || '';
+function openFeishuSyncModal() {
+    loadFeishuConfig();
+    detectFeishuProxy();
+    document.getElementById('feishuAppId').value = feishuSyncConfig.appId || '';
     document.getElementById('feishuAppSecret').value = feishuSyncConfig.appSecret || '';
     document.getElementById('feishuSheetToken').value = feishuSyncConfig.sheetToken || '';
     document.getElementById('feishuSyncStatus').innerHTML = '<div class="msg-info">等待同步...</div>';
@@ -5548,11 +5538,10 @@ async function openFeishuSyncModal() {
     document.getElementById('feishuSyncBtn').disabled = false;
     document.getElementById('feishuSyncBtn').textContent = '立即同步';
     document.getElementById('feishuSyncModal').classList.add('show');
-    } catch(e) { console.error('openFeishuSyncModal error:', e); }
 }
 
 function closeFeishuSyncModal() {
-    document.getElementById('feishuSyncModal').style.cssText = 'display:none';
+    document.getElementById('feishuSyncModal').classList.remove('show');
 }
 
 function logSyncMsg(msg, type) {
@@ -6154,9 +6143,6 @@ loadFeishuConfig();
         window.closeHistoryDetail = closeHistoryDetail;
         window.deleteHistoryRecord = deleteHistoryRecord;
         window.exportHistoryToExcel = exportHistoryToExcel;
-        window.openFeishuSyncModal = openFeishuSyncModal;
-        window.closeFeishuSyncModal = closeFeishuSyncModal;
-        window.doFeishuSync = doFeishuSync;
 
         console.log('✅ 系统已启动！房间管理统计卡片已移除，其他功能正常。');
     </script>
