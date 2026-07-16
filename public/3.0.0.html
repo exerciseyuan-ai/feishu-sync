@@ -3092,9 +3092,6 @@
                     <button class="btn-success" onclick="exportHistoryToExcel()">
                         <i class="fas fa-file-excel"></i> 导出Excel
                     </button>
-                    <button class="btn-outline" onclick="refreshHistory()">
-                        <i class="fas fa-rotate-right"></i> 刷新
-                    </button>
                 </div>
             </div>
 
@@ -6151,6 +6148,9 @@ loadFeishuConfig();
         window.closeHistoryDetail = closeHistoryDetail;
         window.deleteHistoryRecord = deleteHistoryRecord;
         window.exportHistoryToExcel = exportHistoryToExcel;
+        window.openFeishuSyncModal = openFeishuSyncModal;
+        window.closeFeishuSyncModal = closeFeishuSyncModal;
+        window.doFeishuSync = doFeishuSync;
 
         console.log('✅ 系统已启动！房间管理统计卡片已移除，其他功能正常。');
     </script>
