@@ -18,7 +18,8 @@
 </p>
 
 <p align="center">
-  🌐 在线体验，无需注册。欢迎 Star⭐Demo：https://feishu-sync-production.up.railway.app/ <br>
+  🌐 在线体验，无需注册<br>
+  欢迎 Star⭐Demo：https://feishu-sync-production.up.railway.app/ <br>
   原创的、开箱即用的计时计费解决方案<br>
   让棋牌室、桌游吧、茶楼、台球厅、民宿等场所，轻松实现数字化运营
 </p>
