@@ -1,6 +1,6 @@
 <p align="center">
   <img src="public/icon.svg" width="80" height="80" alt="Feishu Sync">
-  <h1 align="center">Feishu Sync</h1>
+  <h1 align="center">时长计费系统————专为棋牌室、桌游吧、茶楼、台球厅、民宿等线下场所设计</h1>
   <p align="center">
     专为线下场所打造的时长计费云管系统
   </p>
