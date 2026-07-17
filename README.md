@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  免费好上手，无需注册 ⭐ 欢迎 Star<br>
+  免费好上手 ⭐ 欢迎 Star<br>
   🌐 在线体验：https://feishu-sync-production.up.railway.app/<br>
   这是一套原创的、开箱即用的计时计费解决方案<br>
   让棋牌室、桌游吧、茶楼、台球厅、民宿等场所，轻松实现数字化运营
