@@ -2,7 +2,7 @@
   <img src="public/icon.svg" width="80" height="80" alt="Feishu Sync">
   <h1 align="center">一款超好用的棋牌室、台球厅、桌游吧、茶楼、民宿的时长计费系统</h1>
   <p align="center">
-    专为线下场所打造,免费好用，支持商品云同步
+    专为线下打造，免费好上手，支持商品云同步
   </p>
   <p align="center">
     <a href="https://feishu-sync-production.up.railway.app/">
