@@ -1,6 +1,6 @@
 <p align="center">
   <img src="public/icon.svg" width="80" height="80" alt="Feishu Sync">
-  <h1 align="center">Feishu Sync</h1>
+  <h1 align="center">一款超好用的棋牌室、台球厅、桌游吧、茶楼、民宿时长计费系统</h1>
   <p align="center">
     专为线下场所打造的时长计费云管系统
   </p>
@@ -18,7 +18,8 @@
 </p>
 
 <p align="center">
-  不是简单的库存盘点工具，也不是笨重的 ERP<br>
+  免费好上手，无需注册 ⭐ 欢迎 Star<br>
+  🌐 在线体验：https://feishu-sync-production.up.railway.app/<br>
   这是一套原创的、开箱即用的计时计费解决方案<br>
   让棋牌室、桌游吧、茶楼、台球厅、民宿等场所，轻松实现数字化运营
 </p>
