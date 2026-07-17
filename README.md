@@ -1,6 +1,6 @@
 <p align="center">
   <img src="public/icon.svg" width="80" height="80" alt="Feishu Sync">
-  <h1 align="center">时长计费系统————棋牌室、桌游吧、茶楼、台球厅、民宿等使用</h1>
+  <h1 align="center">时长计费系统———棋牌室、桌游吧、茶楼、台球厅、民宿等适用</h1>
   <p align="center">
     专为线下场所打造,免费好用，支持商品云同步
   </p>
@@ -18,7 +18,8 @@
 </p>
 
 <p align="center">
-    ERP<br>
+  🌐 在线体验，无需注册  ⭐欢迎 Star
+  在线Demo：https://feishu-sync-production.up.railway.app/ <br>
   原创的、开箱即用的计时计费解决方案<br>
   让棋牌室、桌游吧、茶楼、台球厅、民宿等场所，轻松实现数字化运营
 </p>
